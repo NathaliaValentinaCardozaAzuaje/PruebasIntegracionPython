@@ -6,6 +6,9 @@ def test_fetch_user_from_external_api(httpserver: HTTPServer):
     httpserver.expect_request("/users/1").respond_with_json(
         {"id": 1, "first": "Ada", "last": "Lovelace"}, status=200
     )
+    httpserver.expect_request("/users/5").respond_with_json(
+        {"id": 5, "first": "Henry", "last": "Cavill"}, status=200
+    )
     client = UserClient(httpserver.url_for(""))
     user = client.fetch_user(1)
 
@@ -13,7 +16,13 @@ def test_fetch_user_from_external_api(httpserver: HTTPServer):
     assert user["id"] == 1
     assert user["first"] == "Ada"
     assert user["last"] == "Lovelace"
+
+    user = client.fetch_user(5)
+
     assert user["id"] == 5
+    assert user["first"] == "Henry"
+    assert user["last"] == "Cavill"
+
 
 def test_returns_none_on_404(httpserver: HTTPServer):
     httpserver.expect_request("/users/999").respond_with_data(status=404)
