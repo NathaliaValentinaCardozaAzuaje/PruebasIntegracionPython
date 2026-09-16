@@ -6,4 +6,6 @@ class DiscountEngine:
             return 0.10
         if subtotal >= 50.0:
             return 0.05
+        if subtotal < 50.0:
+            return 0.0
         return 0.0

@@ -13,6 +13,7 @@ def test_fetch_user_from_external_api(httpserver: HTTPServer):
     assert user["id"] == 1
     assert user["first"] == "Ada"
     assert user["last"] == "Lovelace"
+    assert user["id"] == 5
 
 def test_returns_none_on_404(httpserver: HTTPServer):
     httpserver.expect_request("/users/999").respond_with_data(status=404)
